@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Việt Nam: Độc lập & CNXH - Hành Trình Lịch Sử</title>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    
+    <style>
+        /* --- CONCEPT: HÀO KHÍ CỜ ĐỎ SAO VÀNG --- */
+        #chapter3 {
+            background: linear-gradient(135deg, #4a0404 0%, #1a0000 100%) !important;
+            position: relative;
+            padding-top: 150px;
+            padding-bottom: 100px;
+            color: #fdfbf7;
+            overflow: hidden;
+        }
+        /* --- LỜI DẪN TRƯỚC VIDEO --- */
+        .intro-quote {
+            max-width: 800px;
+            width: 90%;
+            margin: 0 auto 40px auto;
+            text-align: center;
+            color: #e5e7eb;
+            font-size: 1.25rem;
+            line-height: 1.8;
+            font-style: italic;
+            padding: 20px 30px;
+            border-left: 4px solid #ffcd00;
+            border-right: 4px solid #ffcd00;
+            background: linear-gradient(90deg, rgba(255,205,0,0.05) 0%, rgba(0,0,0,0.4) 50%, rgba(255,205,0,0.05) 100%);
+            border-radius: 8px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .intro-quote .highlight-text {
+            color: #ffcd00;
+            font-size: 1.5rem;
+            display: block;
+            margin-bottom: 15px;
+            font-weight: bold;
+            font-family: var(--font-heading);
+            letter-spacing: 1px;
+            text-shadow: 0 0 10px rgba(255, 205, 0, 0.5);
+        }
+
+        .intro-quote .cta-text {
+            display: inline-block;
+            margin-top: 15px;
+            color: #fff;
+            font-style: normal;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 1rem;
+            border-bottom: 2px dashed #da251d;
+            padding-bottom: 5px;
+        }
+
+        #chapter3::before {
+            content: '';
+            position: absolute;
+            top: -50%; left: -50%; width: 200%; height: 200%;
+            background: radial-gradient(circle at 50% 0%, rgba(255, 205, 0, 0.1) 0%, transparent 60%);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        #chapter3 h2.section-title {
+            color: #ffcd00 !important;
+            font-size: 3.8rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            text-shadow: 0 0 25px rgba(255, 205, 0, 0.6);
+            position: relative;
+            z-index: 10;
+        }
+
+       /* --- THÊM MỚI: Style cho câu trích dẫn --- */
+        .chapter-subtitle {
+            text-align: center;
+            color: #fdfbf7;
+            font-size: 1.6rem;
+            font-style: italic;
+            font-family: serif; /* Dùng font có chân cho trang trọng */
+            margin-top: -15px; /* Kéo gần lại tiêu đề trên */
+            margin-bottom: 50px; /* Đẩy video xuống một chút */
+            letter-spacing: 2px;
+            text-shadow: 0 2px 15px rgba(255, 205, 0, 0.6);
+            position: relative;
+            z-index: 10;
+        }
+
+        /* --- CẬP NHẬT: Khung video sáng và ảo diệu hơn --- */
+        .cinema-frame {
+            max-width: 1000px; width: 90%;
+            margin: 0 auto 80px auto;
+            border: 3px solid #ffcd00; 
+            border-radius: 12px; 
+            padding: 10px; 
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(10px); /* Hiệu ứng kính mờ */
+            /* Tăng độ lan tỏa của ánh sáng vàng */
+            box-shadow: 0 20px 50px rgba(0,0,0,0.9), 0 0 50px rgba(255, 205, 0, 0.3), inset 0 0 20px rgba(255, 205, 0, 0.2);
+            position: relative; z-index: 10; box-sizing: border-box;
+        }
+
+        /* --- THÊM MỚI: Vầng hào quang đỏ chớp nháy nhẹ phía sau video --- */
+        .cinema-frame::before {
+            content: '';
+            position: absolute;
+            top: -15%; left: -10%; width: 120%; height: 130%;
+            background: radial-gradient(circle at 50% 50%, rgba(218, 37, 29, 0.5), transparent 65%);
+            z-index: -1;
+            filter: blur(40px);
+            animation: pulse-glow 4s infinite alternate;
+            pointer-events: none; /* Không cản trở việc click vào video */
+        }
+
+        @keyframes pulse-glow {
+            0% { opacity: 0.4; transform: scale(0.95); }
+            100% { opacity: 1; transform: scale(1.05); }
+        }
+
+        .cinema-frame iframe {
+            width: 100%; height: auto; aspect-ratio: 16 / 9;
+            border-radius: 8px; display: block;
+            box-shadow: 0 0 15px rgba(0,0,0,0.8);
+        }
+        .cinema-frame iframe {
+            width: 100%; height: auto; aspect-ratio: 16 / 9;
+            border-radius: 8px; display: block;
+        }
+
+        /* --- BỐ CỤC CHỨA TIMELINE LẤP ĐẦY TRANG --- */
+        .timeline-wrapper {
+            position: relative; 
+            max-width: 1300px; /* Tăng chiều rộng tổng thể */
+            margin: 0 auto 80px auto;
+            z-index: 10;
+        }
+
+        /* TIMELINE (TRỤC THỜI GIAN) */
+        .vn-timeline {
+            width: 100%; 
+            position: relative;
+            padding: 20px 0;
+        }
+        .vn-timeline::after {
+            content: ''; position: absolute; width: 4px;
+            background: rgba(255, 205, 0, 0.3);
+            top: 0; bottom: 0; left: 50%; margin-left: -2px;
+            box-shadow: 0 0 10px rgba(255, 205, 0, 0.5);
+        }
+
+        .timeline-step {
+            padding: 10px 10px ; 
+            position: relative;
+            background-color: inherit; width: 50%; box-sizing: border-box;
+            margin-bottom: 40px; 
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .timeline-step:hover { transform: scale(1.02); } 
+        
+        .timeline-step.left { left: 0; text-align: right; }
+        .timeline-step.right { left: 50%; text-align: left; }
+
+        .timeline-step::after {
+            content: ''; position: absolute; width: 20px; height: 20px;
+            right: -10px; top: 25px; background-color: #ffcd00;
+            border: 4px solid #4a0404; border-radius: 50%; 
+            z-index: 1;
+            box-shadow: 0 0 15px #ffcd00; transition: all 0.3s ease;
+        }
+        .timeline-step.right::after { left: -10px; }
+        .timeline-step:hover::after { transform: scale(1.5); background-color: #fff; }
+
+        .time-content {
+            padding: 25px 30px; 
+            background: rgba(218, 37, 29, 0.8);
+            border-radius: 10px; /* Giữ nguyên bo góc */
+            border: 1px solid rgba(255, 205, 0, 0.4);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5); transition: all 0.3s ease;
+        }
+        .timeline-step:hover .time-content {
+            background: rgba(218, 37, 29, 1); border-color: #ffcd00;
+            box-shadow: 0 10px 25px rgba(255, 205, 0, 0.3); transform: translateY(-3px);
+        }
+        .time-content h3 { color: #ffcd00; font-size: 1.8rem; margin-bottom: 10px; font-family: var(--font-heading); }
+        .time-content p { margin: 0; color: #fdfbf7; font-size: 1.15rem; line-height: 1.5; }
+.timeline-wrapper {
+    max-width: 800px; /* hoặc 1900px nếu màn hình lớn */
+    width: 100%;
+}
+
+        /* --- KHUNG CHI TIẾT TRƯỢT SO LE (ZIGZAG) - ĐÃ CHỈNH THÀNH HÌNH CHỮ NHẬT NẰM NGANG --- */
+        .side-panel {
+            /* TĂNG: Chiều rộng lớn hơn */
+            width: 55%; 
+            position: absolute; 
+            top: 0; 
+            
+            background: rgba(0, 0, 0, 0.85);
+            border: 2px solid #ffcd00;
+            border-radius: 12px; /* Giữ nguyên bo góc */
+            padding: 20px 25px; /* Giảm chiều cao */
+            box-shadow: 0 15px 40px rgba(0,0,0,0.8), inset 0 0 20px rgba(255, 205, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            /* GIẢM: Chiều cao nhỏ hơn */
+            min-height: 300px; 
+            
+            opacity: 0;
+            visibility: hidden;
+            transition: top 0.4s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
+            z-index: 20;
+        }
+
+        .side-panel.pos-right { left: auto; right: 0; transform: translateX(30px) scale(0.95); }
+        .side-panel.pos-left { right: auto; left: 0; transform: translateX(-30px) scale(0.95); }
+
+        .side-panel.show-active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(0) scale(1);
+        }
+
+        #panel-content { text-align: center; }
+
+        #panel-content img {
+            /* GIẢM: Chiều cao ảnh nhỏ hơn */
+            width: 100%; height: 180px; object-fit: cover;
+            border-radius: 8px; /* Giữ nguyên bo góc */
+            border: 2px solid #ffcd00;
+            margin-bottom: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+        }
+
+        #panel-content h4 {
+            color: #ffcd00; font-size: 1.8rem; margin-bottom: 15px;
+            font-family: var(--font-heading); border-bottom: 1px dashed rgba(255, 205, 0, 0.4);
+            padding-bottom: 10px;
+        }
+
+        #panel-content p {
+            color: #e5e7eb; font-size: 1.05rem; line-height: 1.6;
+            text-align: justify;
+        }
+
+        /* CÁC PHẦN DƯỚI GIỮ NGUYÊN */
+        .dialectic-box { display: flex; justify-content: center; align-items: center; gap: 20px; max-width: 900px; margin: 0 auto 80px auto; position: relative; z-index: 10; }
+        .dialectic-item { background: linear-gradient(145deg, rgba(255, 205, 0, 0.1), rgba(0,0,0,0.4)); border: 2px dashed #ffcd00; padding: 30px; border-radius: 12px; width: 45%; text-align: center; }
+        .dialectic-icon { font-size: 3rem; margin-bottom: 15px; }
+        .dialectic-item h4 { color: #ffcd00; font-size: 1.4rem; margin-bottom: 10px; text-transform: uppercase; }
+        .dialectic-arrows { font-size: 2.5rem; color: #ffcd00; animation: bounce-h 2s infinite; }
+        @keyframes bounce-h { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(10px); } }
+
+        .star-network { display: flex; flex-direction: column; align-items: center; position: relative; z-index: 10; margin-bottom: 50px; }
+        .party-star { background: radial-gradient(circle, #ffcd00 0%, #da251d 80%); width: 120px; height: 120px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 3.5rem; color: #fff; box-shadow: 0 0 40px #ffcd00; position: relative; z-index: 2; animation: pulse-star 2s infinite; }
+        @keyframes pulse-star { 0% { box-shadow: 0 0 20px #ffcd00; } 50% { box-shadow: 0 0 50px #ffcd00, inset 0 0 20px rgba(255,255,255,0.8); } 100% { box-shadow: 0 0 20px #ffcd00; } }
+        .network-beams { display: flex; gap: 80px; margin-top: -20px; }
+        .beam-item { display: flex; flex-direction: column; align-items: center; }
+        .beam-line { width: 4px; height: 60px; background: linear-gradient(to bottom, #ffcd00, transparent); margin-bottom: 15px; }
+        .alliance-card { background: rgba(0, 0, 0, 0.6); border: 1px solid #ffcd00; padding: 15px 30px; border-radius: 8px; color: #fff; font-weight: bold; font-size: 1.2rem; text-transform: uppercase; box-shadow: 0 5px 15px rgba(0,0,0,0.5); }
+
+        /* RESPONSIVE CHO ĐIỆN THOẠI */
+        @media (max-width: 992px) {
+            .side-panel { 
+                width: 100%; max-width: 600px; 
+                position: relative !important; top: 0 !important; left: auto !important; right: auto !important;
+                margin-bottom: 40px; order: -1; 
+                transform: translateX(0) translateY(-20px); 
+            }
+            .side-panel.pos-left, .side-panel.pos-right { transform: translateY(-20px); }
+            .side-panel.show-active { transform: translateY(0) scale(1); }
+            .vn-timeline { max-width: 100%; width: 100%; }
+        }
+        @media (max-width: 768px) {
+            .vn-timeline::after { left: 31px; }
+            .timeline-step { width: 100%; padding-left: 70px; padding-right: 25px; }
+            .timeline-step.left { text-align: left; }
+            .timeline-step.right { left: 0; }
+            .timeline-step.left::after, .timeline-step.right::after { left: 21px; top: 25px; }
+            .dialectic-box { flex-direction: column; }
+            .dialectic-item { width: 100%; }
+            .dialectic-arrows { transform: rotate(90deg); margin: 10px 0; }
+            .network-beams { flex-direction: column; gap: 20px; }
+            .beam-line { display: none; }
+        }
+        /* =========================================
+           1. KHUNG CHI TIẾT TIMELINE (SÁNG TẠO)
+        ========================================= */
+      
+
+        /* =========================================
+           2. KHUNG QUAN HỆ BIỆN CHỨNG (3D & NGÔI SAO TỎA SÁNG)
+        ========================================= */
+        .dialectic-wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            margin: 50px auto;
+            max-width: 1000px;
+        }
+
+        .dialectic-card {
+            flex: 1;
+            min-width: 300px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 205, 0, 0.2);
+            border-top: 4px solid #ffcd00; /* Viền vàng phía trên */
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Hiệu ứng chùm sáng chạy xéo qua thẻ */
+        .dialectic-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 50%; height: 100%;
+            background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,205,0,0.1) 50%, rgba(255,255,255,0) 100%);
+            transform: skewX(-25deg);
+            transition: 0.7s;
+        }
+        .dialectic-card:hover::before {
+            left: 200%;
+        }
+
+        .dialectic-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(255, 205, 0, 0.2);
+            border-color: rgba(255, 205, 0, 0.8);
+        }
+
+        .dialectic-card h3 {
+            color: #ffcd00;
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px rgba(255, 205, 0, 0.3);
+        }
+
+        .dialectic-card p {
+            color: #e5e7eb;
+            line-height: 1.6;
+            font-size: 1.1rem;
+        }
+
+        /* Ngôi sao trung tâm thay cho mũi tên */
+        .connector-star {
+            font-size: 2.5rem;
+            color: #ffcd00;
+            text-shadow: 0 0 20px #ffcd00, 0 0 40px #da251d;
+            animation: pulse-star 2s infinite alternate;
+            padding: 20px;
+            z-index: 10;
+        }
+
+        @keyframes pulse-star {
+            0% { transform: scale(0.8); opacity: 0.7; }
+            100% { transform: scale(1.2); opacity: 1; text-shadow: 0 0 30px #ffcd00, 0 0 60px #da251d; }
+        }
+        .unity-container {
+            position: relative;
+            max-width: 900px;
+            margin: 60px auto;
+            text-align: center;
+        }
+
+        .unity-center {
+            position: relative;
+            z-index: 2;
+            margin-bottom: 80px;
+        }
+
+        .main-star {
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle, #ffcd00, #da251d);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: #fff;
+            margin: 0 auto;
+            box-shadow: 0 0 30px rgba(255, 205, 0, 0.6);
+            animation: pulse-glow 2s infinite;
+        }
+
+        /* Tạo các đường nối bằng SVG */
+        .connection-lines {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .connection-lines line {
+            stroke: #ffcd00;
+            stroke-width: 2;
+            stroke-dasharray: 10;
+            opacity: 0.4;
+            animation: line-flow 2s linear infinite;
+        }
+
+        @keyframes line-flow {
+            to { stroke-dashoffset: -20; }
+        }
+
+        .unity-cards {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .u-card {
+            flex: 1;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid #ffcd00;
+            border-radius: 8px;
+            color: #fff;
+            font-weight: bold;
+            letter-spacing: 2px;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        /* Hiệu ứng khi hover vào khối */
+        .u-card:hover {
+            background: #ffcd00;
+            color: #000;
+            transform: translateY(-5px);
+            box-shadow: 0 0 20px rgba(255, 205, 0, 0.8);
+        }
+
+        @keyframes pulse-glow {
+            0% { transform: scale(1); box-shadow: 0 0 20px rgba(255, 205, 0, 0.5); }
+            100% { transform: scale(1.1); box-shadow: 0 0 40px rgba(255, 205, 0, 0.8); }
+        }
+
+        /* Responsive cho điện thoại */
+        @media (max-width: 600px) {
+            .unity-cards { flex-direction: column; }
+            .connection-lines { display: none; } /* Ẩn đường nối trên mobile để đỡ rối */
+        }
+    </style>
+</head>
+<body>
+
+    <div id="progress-bar"></div>
+    <button id="music-btn" title="Bật/Tắt nhạc nền">🎵 Nhạc nền</button>
+    <audio id="bg-music" loop>
+        <source src="https://cdn.pixabay.com/download/audio/2022/01/18/audio_d0a13f69d2.mp3?filename=epic-hollywood-trailer-9489.mp3" type="audio/mpeg">
+    </audio>
+
+    <nav>
+        <h1>Lý Luận Sáng Tạo</h1>
+        <ul>
+            <li><a href="index.html">Trang chủ</a></li>
+            <li><a href="cong-nhan.html">Công Nhân</a></li>
+            <li><a href="dan-toc.html">Dân tộc</a></li>
+            <li><a href="viet-nam.html">Việt Nam</a></li>
+            <li><a href="thu-tai.html">Thử Tài</a></li>
+        </ul>
+    </nav>
+
+    <section id="chapter3">
+        <h2 class="section-title" data-aos="zoom-in">Việt Nam: Độc Lập & CNXH</h2>
+        
+        
+        
+        <div class="intro-quote" data-aos="fade-up" data-aos-delay="100">
+            <span class="highlight-text">"Không có gì quý hơn Độc lập, Tự do!"</span>
+            Hành trình đi lên Chủ nghĩa xã hội của dân tộc Việt Nam là một bản anh hùng ca bất diệt, được viết nên bởi khát vọng hòa bình, sức mạnh đại đoàn kết và ý chí kiên cường không thể khuất phục. Khoảnh khắc ấy đã được kết tinh trong bản Tuyên Ngôn Độc Lập của chủ tịch Hồ Chí Minh
+            <br>
+            <span class="cta-text">👇 Hãy cùng nhìn lại những khoảnh khắc lịch sử chói lọi 👇</span>
+        </div>
+     <div class="cinema-frame" data-aos="fade-up" data-aos-delay="200">
+            <video width="100%" controls poster="https://file3.qdnd.vn/data/images/0/2022/04/26/thuyanh/30-4.jpg">
+                <source src="videos/hao-khi-viet-nam.mp4" type="video/mp4">
+                Trình duyệt của bạn không hỗ trợ thẻ video. Hãy nâng cấp trình duyệt để xem.
+            </video>
+        </div>
+
+        <h3 style="text-align: center; color: #ffcd00; font-size: 2.5rem; font-family: var(--font-heading); margin-bottom: 40px;" data-aos="fade-up">Cột Mốc Lịch Sử</h3>
+        
+        <div class="timeline-wrapper">
+            
+            <div class="vn-timeline" data-aos="fade-right">
+                
+                <div class="timeline-step left" onmouseenter="showDetails('1930', this)" onmouseleave="hideDetails()">
+                    <div class="time-content">
+                        <h3>1930</h3>
+                        <p>Thành lập Đảng Cộng sản Việt Nam.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-step right" onmouseenter="showDetails('1945', this)" onmouseleave="hideDetails()">
+                    <div class="time-content">
+                        <h3>1945</h3>
+                        <p>Tuyên ngôn Độc lập, khai sinh nước.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-step left" onmouseenter="showDetails('1975', this)" onmouseleave="hideDetails()">
+                    <div class="time-content">
+                        <h3>1975</h3>
+                        <p>Đại thắng Mùa xuân, thống nhất đất nước.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-step right" onmouseenter="showDetails('doi_moi', this)" onmouseleave="hideDetails()">
+                    <div class="time-content">
+                        <h3>Đổi Mới</h3>
+                        <p>Tiến hành Đổi mới, hội nhập và phát triển.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="side-panel" id="detail-panel">
+                <div id="panel-content"></div>
+            </div>
+
+        </div>
+
+       <div class="dialectic-header" data-aos="fade-down">
+            <h2>Mối Quan Hệ Biện Chứng</h2>
+            <div class="underline"></div>
+            <p style="color: #ccc; margin-top: 10px; font-style: italic;">
+                "Độc lập dân tộc gắn liền với Chủ nghĩa xã hội"
+            </p>
+        </div>
+
+        <div class="dialectic-wrapper" data-aos="fade-up">
+            <div class="dialectic-card">
+                <h3>Độc Lập Dân Tộc</h3>
+                <p>Là tiền đề, là điều kiện tiên quyết để tiến lên xây dựng Chủ nghĩa xã hội.</p>
+            </div>
+
+            <div class="connector-star">★</div>
+
+            <div class="dialectic-card">
+                <h3>Chủ Nghĩa Xã Hội</h3>
+                <p>Là cơ sở vững chắc để bảo vệ và phát triển nền độc lập dân tộc bền vững.</p>
+            </div>
+        </div>
+
+        <h3 style="text-align: center; color: #ffcd00; font-size: 2.5rem; font-family: var(--font-heading); margin-bottom: 40px;" data-aos="fade-up">Sức Mạnh Đại Đoàn Kết</h3>
+        <div class="unity-section" data-aos="fade-up">
+   
+    
+    <div class="unity-container">
+        <div class="unity-center">
+            <div class="main-star">★</div>
+            <svg class="connection-lines">
+                <line class="line-left" x1="50%" y1="50%" x2="10%" y2="100%"></line>
+                <line class="line-center" x1="50%" y1="50%" x2="50%" y2="100%"></line>
+                <line class="line-right" x1="50%" y1="50%" x2="90%" y2="100%"></line>
+            </svg>
+        </div>
+
+        <div class="unity-cards">
+            <div class="u-card">CÔNG NHÂN</div>
+            <div class="u-card">NÔNG DÂN</div>
+            <div class="u-card">TRÍ THỨC</div>
+        </div>
+    </div>
+</div>
+
+    </section>
+
+    <footer>
+        <p>&copy; 2026 - Sản phẩm sáng tạo môn Chủ nghĩa xã hội khoa học</p>
+    </footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="js/script.js"></script>
+    
+    <script>
+        const eventsData = {
+            '1930': {
+                title: 'Năm 1930',
+                img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSzdlR-xaO7Dfa_EOoYT8rG2W0CVhCo8zIksw&s',
+                desc: 'Thành lập Đảng Cộng sản Việt Nam. Sự kiện đánh dấu chấm dứt thời kỳ khủng hoảng về đường lối cứu nước. Từ đây, cách mạng Việt Nam có một đội tiên phong lãnh đạo với nền tảng là Chủ nghĩa Mác - Lênin.'
+            },
+            '1945': {
+                title: 'Năm 1945',
+                img: 'data:image/jpeg;base64,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',
+                desc: 'Chủ tịch Hồ Chí Minh đọc Tuyên ngôn Độc lập tại Quảng trường Ba Đình. Lần đầu tiên, một nhà nước công nông ra đời ở Đông Nam Á, mở ra kỷ nguyên độc lập, tự do cho dân tộc.'
+            },
+            '1975': {
+                title: 'Năm 1975',
+                img: 'https://file3.qdnd.vn/data/images/0/2022/04/26/thuyanh/30-4.jpg?dpi=150&quality=100&w=870',
+                desc: 'Chiến dịch Hồ Chí Minh lịch sử toàn thắng. Đất nước hoàn toàn thống nhất, non sông thu về một mối, cả nước cùng bước vào thời kỳ quá độ đi lên xây dựng Chủ nghĩa xã hội.'
+            },
+            'doi_moi': {
+                title: 'Thời kỳ Đổi Mới',
+                img: 'https://dhannd.bocongan.gov.vn/image/catalog/00_hinh_anh/kt/250130_kynguyenvuonminhtolam.jpg',
+                desc: 'Từ năm 1986, Đảng khởi xướng công cuộc Đổi mới toàn diện đất nước. Việt Nam vươn lên mạnh mẽ, xây dựng nền kinh tế thị trường định hướng XHCN và hội nhập quốc tế sâu rộng.'
+            }
+        };
+
+        function showDetails(eventId, element) {
+            const panel = document.getElementById('panel-content');
+            const sideBox = document.getElementById('detail-panel');
+            const data = eventsData[eventId];
+            
+            panel.innerHTML = `
+                <h4>${data.title}</h4>
+                <img src="${data.img}" alt="${data.title}">
+                <p>${data.desc}</p>
+            `;
+
+            if (window.innerWidth > 992) {
+                // Đẩy khung bằng hàng với mốc đang hover
+                sideBox.style.top = element.offsetTop + 'px';
+                
+                sideBox.classList.remove('pos-left', 'pos-right');
+                
+                if (element.classList.contains('left')) {
+                    sideBox.classList.add('pos-right');
+                } else {
+                    sideBox.classList.add('pos-left');
+                }
+            }
+
+            sideBox.classList.add('show-active');
+        }
+
+        function hideDetails() {
+            const sideBox = document.getElementById('detail-panel');
+            sideBox.classList.remove('show-active');
+        }
+    </script>
+
+</body>
+</html>

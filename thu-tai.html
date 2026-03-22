@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thử Tài: Giải Mã Lịch Sử | Hào Khí Việt Nam</title>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    
+    <style>
+        /* --- TÙY CHỈNH STYLE RIÊNG CHO TRANG QUIZ --- */
+        body {
+            background-color: #1a0000; /* Nền đỏ đen huyền bí */
+            overflow-x: hidden;
+        }
+
+        #quiz-section {
+            padding: 120px 20px 80px 20px;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* Hiệu ứng hào quang đỏ mờ phía sau */
+        #quiz-section::before {
+            content: '';
+            position: absolute;
+            top: 50%; left: 50%;
+            width: 150%; height: 150%;
+            background: radial-gradient(circle at center, rgba(218, 37, 29, 0.15) 0%, transparent 60%);
+            transform: translate(-50%, -50%);
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .quiz-container {
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* --- THANH TIẾN TRÌNH (PROGRESS BAR) --- */
+        .progress-wrapper {
+            background: rgba(0, 0, 0, 0.6);
+            border: 2px solid rgba(255, 205, 0, 0.3);
+            border-radius: 50px;
+            padding: 5px;
+            margin-bottom: 40px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+        }
+
+        .progress-bar {
+            height: 15px;
+            background: linear-gradient(90deg, #da251d 0%, #ffcd00 100%);
+            border-radius: 50px;
+            width: 0%; /* Chạy động bằng JS */
+            transition: width 0.4s ease;
+            box-shadow: 0 0 10px rgba(255, 205, 0, 0.6);
+        }
+
+        /* --- KHUNG CÂU HỎI (QUESTION BOX) --- */
+        .question-box {
+            background: rgba(0, 0, 0, 0.8);
+            border: 2px solid #ffcd00;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.8), inset 0 0 20px rgba(255, 205, 0, 0.1);
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .question-box h3 {
+            color: #ffcd00;
+            font-size: 2.2rem;
+            margin-bottom: 30px;
+            font-family: var(--font-heading);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 0 15px rgba(255, 205, 0, 0.4);
+        }
+
+        .question-text {
+            color: #fdfbf7;
+            font-size: 1.4rem;
+            line-height: 1.6;
+            margin-bottom: 40px;
+        }
+
+        /* --- CÁC ĐÁP ÁN (ANSWERS) --- */
+        .answers-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .answer-item {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 205, 0, 0.3);
+            border-radius: 10px;
+            padding: 20px;
+            color: #fff;
+            font-size: 1.15rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Hiệu ứng chùm sáng khi hover */
+        .answer-item::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 205, 0, 0.1), transparent);
+            transition: 0.5s;
+        }
+
+        .answer-item:hover {
+            border-color: #ffcd00;
+            background: rgba(255, 205, 0, 0.1);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(255, 205, 0, 0.3);
+        }
+
+        .answer-item:hover::before {
+            left: 100%;
+        }
+
+        /* State: Đáp án được chọn */
+        .answer-item.selected {
+            border-color: #ffcd00;
+            background: #ffcd00;
+            color: #000;
+            font-weight: bold;
+        }
+
+        /* State: Đúng/Sai (sẽ add class bằng JS) */
+        .answer-item.correct {
+            border-color: #2ecc71 !important;
+            background: #2ecc71 !important;
+            color: #fff !important;
+        }
+
+        .answer-item.wrong {
+            border-color: #e74c3c !important;
+            background: #e74c3c !important;
+            color: #fff !important;
+        }
+
+        /* --- NÚT ĐIỀU KHIỂN --- */
+        .quiz-controls {
+            margin-top: 40px;
+            text-align: center;
+        }
+
+        .quiz-btn {
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+        }
+
+        .btn-next {
+            background: linear-gradient(135deg, #ffcd00 0%, #da251d 100%);
+            color: #fff;
+        }
+
+        .btn-next:hover {
+            box-shadow: 0 0 25px rgba(255, 205, 0, 0.8);
+            transform: scale(1.05);
+        }
+
+        /* --- MÀN HÌNH KẾT QUẢ (RESULT SCREEN) --- */
+        #result-screen {
+            display: none; /* Ẩn mặc định */
+            text-align: center;
+        }
+
+        .result-box {
+            background: rgba(0, 0, 0, 0.8);
+            border: 3px solid #ffcd00;
+            border-radius: 20px;
+            padding: 60px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.9);
+        }
+
+        .final-score {
+            font-size: 5rem;
+            color: #ffcd00;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-shadow: 0 0 30px #ffcd00;
+        }
+
+        .result-message {
+            color: #fff;
+            font-size: 1.8rem;
+            margin-bottom: 40px;
+            line-height: 1.4;
+        }
+
+        /* Responsive cho điện thoại */
+        @media (max-width: 768px) {
+            .question-box { padding: 25px; }
+            .question-box h3 { font-size: 1.8rem; }
+            .question-text { font-size: 1.15rem; }
+            .answers-grid { grid-template-columns: 1fr; }
+            .answer-item { padding: 15px; font-size: 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <h1>Lý Luận Sáng Tạo</h1>
+        <ul>
+            <li><a href="index.html">Trang chủ</a></li>
+            <li><a href="cong-nhan.html">Công Nhân</a></li>
+            <li><a href="dan-toc.html">Dân tộc</a></li>
+            <li><a href="viet-nam.html">Việt Nam</a></li>
+            <li><a href="thu-tai.html" class="active">Thử Tài</a></li>
+        </ul>
+    </nav>
+
+    <section id="quiz-section">
+        <div class="quiz-container">
+            
+            <div style="text-align: center; margin-bottom: 60px;" data-aos="fade-down">
+                <h2 style="font-family: var(--font-heading); color: #ffcd00; font-size: 3rem; text-transform: uppercase; text-shadow: 0 0 20px rgba(255, 205, 0, 0.6);">
+                    Giải Mã Lịch Sử
+                </h2>
+                <div style="width: 100px; height: 3px; background: linear-gradient(90deg, transparent, #da251d, #ffcd00, #da251d, transparent); margin: 10px auto;"></div>
+                <p style="color: #ccc; font-style: italic; margin-top: 15px;">
+                    "Vượt qua thử thách, khẳng định bản lĩnh chiến sĩ thông tin!"
+                </p>
+            </div>
+
+            <div id="game-screen">
+                <div class="progress-wrapper">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
+
+                <div class="question-box" data-aos="zoom-in">
+                    <h3>Câu Hỏi <span id="question-number">1</span></h3>
+                    <p class="question-text" id="question-text">
+                        Đang tải câu hỏi...
+                    </p>
+                    
+                    <div class="answers-grid" id="answers-grid">
+                        </div>
+                </div>
+
+                <div class="quiz-controls">
+                    <button class="quiz-btn btn-next" id="next-btn" style="display: none;">Câu tiếp theo ➜</button>
+                    <button class="quiz-btn btn-next" id="submit-btn">Xác nhận đáp án</button>
+                </div>
+            </div>
+
+            <div id="result-screen">
+                <div class="result-box" data-aos="zoom-in">
+                    <h3>Hoàn Thành Nhiệm Vụ!</h3>
+                    <div style="width: 80px; height: 3px; background: #ffcd00; margin: 15px auto 30px auto;"></div>
+                    
+                    <p style="color: #ccc; font-size: 1.2rem; margin-bottom: 10px;">Điểm số của bạn:</p>
+                    <div class="final-score"><span id="score-display">0</span>/10</div>
+                    
+                    <p class="result-message" id="result-message">
+                        Đang đánh giá kết quả...
+                    </p>
+                    
+                    <button class="quiz-btn btn-next" onclick="location.reload()">Chơi lại từ đầu ↻</button>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>AOS.init({ duration: 800, once: true });</script>
+    
+    <script src="js/quiz.js"></script>
+
+</body>
+</html>

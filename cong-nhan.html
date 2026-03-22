@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giai cấp công nhân - Hành Trình Lịch Sử</title>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    
+    <style>
+        /* --- CONCEPT: LÒ RÈN CÔNG NGHIỆP TRÊN NỀN LỊCH SỬ --- */
+        #chapter1 {
+            /* Thay đổi: Nền tối kết hợp với ảnh nền của bạn làm mờ */
+            background-color: #111418 !important; 
+            background-image: 
+                radial-gradient(circle at center, rgba(42, 22, 16, 0.7) 0%, rgba(17, 20, 24, 0.9) 70%),
+                url('https://png.pngtree.com/thumb_back/fh260/background/20210903/pngtree-may-day-labor-day-workers-silhouette-simple-city-construction-image_793453.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed; /* Hiệu ứng nền đứng yên khi cuộn */
+            
+            position: relative;
+            overflow: hidden;
+            padding-top: 150px;
+            padding-bottom: 100px;
+            color: #fdfbf7;
+        }
+
+        #chapter1 h2.section-title {
+            color: #ff4500 !important; /* Màu đỏ cam thép nung */
+            font-size: 3.5rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            text-shadow: 0 0 20px rgba(255, 69, 0, 0.6);
+            margin-bottom: 60px;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Hiệu ứng Bánh răng ngầm phía sau (giữ lại cho concept công nghiệp) */
+        .gear-bg {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 40rem;
+            color: rgba(255, 255, 255, 0.03);
+            z-index: 1;
+            animation: spin-gear 40s linear infinite;
+            pointer-events: none;
+        }
+        @keyframes spin-gear {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        /* Lưới hiển thị 4 thẻ thông tin */
+        .industry-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 40px;
+            max-width: 1000px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Thẻ khối thép nung */
+        .steel-card {
+            background: linear-gradient(145deg, rgba(31, 35, 38, 0.9), rgba(19, 21, 23, 0.95));
+            border: 2px solid #333;
+            border-left: 5px solid #ff4500; /* Viền đỏ công nhân */
+            border-radius: 8px;
+            padding: 40px 30px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            box-shadow: 5px 5px 15px rgba(0,0,0,0.8);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        /* Hiệu ứng tia chớp/thép nung lướt qua khi Hover */
+        .steel-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 50%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 69, 0, 0.3), transparent);
+            transform: skewX(-20deg);
+            transition: all 0.6s ease;
+        }
+
+        .steel-card:hover {
+            transform: translateY(-10px);
+            border-color: #ff4500;
+            box-shadow: 0 10px 30px rgba(255, 69, 0, 0.4);
+            background: linear-gradient(145deg, #2a1610, #131517); /* Đổi màu nền sang nóng */
+        }
+
+        .steel-card:hover::before {
+            left: 200%; /* Tia sáng lướt qua */
+        }
+
+        .steel-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            filter: drop-shadow(0 0 8px rgba(255, 69, 0, 0.8));
+        }
+
+        .steel-card h3 {
+            color: #ff4500;
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            border-bottom: 1px dashed rgba(255, 255, 255, 0.2);
+            padding-bottom: 10px;
+        }
+
+        .steel-card p {
+            color: #d1d5db;
+            font-size: 1.05rem;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        @media (max-width: 768px) {
+            .industry-grid { grid-template-columns: 1fr; padding: 0 20px; }
+            .gear-bg { font-size: 20rem; }
+        }
+        /* --- HIỆU ỨNG HẠT NHÂN LÃNH ĐẠO --- */
+        .leadership-section {
+            margin-top: 100px;
+            text-align: center;
+            position: relative;
+            z-index: 10;
+        }
+
+        .leadership-title {
+            color: #d1d5db;
+            font-size: 2rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 50px;
+            font-family: var(--font-heading);
+            text-shadow: 0 0 10px rgba(0,0,0,0.8);
+        }
+
+        .network-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 50px;
+            position: relative;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        /* Các đường dây liên kết */
+        .connection-line {
+            position: absolute;
+            top: 50%;
+            width: 30%;
+            height: 4px;
+            background-color: #333;
+            z-index: 1;
+            transition: all 0.5s ease;
+        }
+        .line-left { left: 20%; }
+        .line-right { right: 20%; }
+
+        /* Các Node (Thực thể) */
+        .node {
+            background: linear-gradient(145deg, #1f2326, #131517);
+            border: 2px solid #555;
+            border-radius: 50%;
+            width: 150px;
+            height: 150px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            z-index: 2;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.8);
+            transition: all 0.5s ease;
+        }
+
+        .node-icon { font-size: 2.5rem; margin-bottom: 10px; }
+        .node-text { color: #d1d5db; font-weight: bold; font-size: 1.1rem; }
+
+        /* Node Trung tâm: Giai cấp công nhân */
+        .node.core {
+            width: 200px;
+            height: 200px;
+            border-color: #ff4500;
+            box-shadow: 0 0 30px rgba(255, 69, 0, 0.4);
+            animation: pulse-core 2s infinite;
+            cursor: pointer;
+        }
+        .node.core .node-icon { font-size: 3.5rem; }
+        .node.core .node-text { color: #ff4500; font-size: 1.3rem; text-transform: uppercase; }
+
+        @keyframes pulse-core {
+            0% { box-shadow: 0 0 20px rgba(255, 69, 0, 0.4); }
+            50% { box-shadow: 0 0 50px rgba(255, 69, 0, 0.8), inset 0 0 20px rgba(255, 69, 0, 0.5); }
+            100% { box-shadow: 0 0 20px rgba(255, 69, 0, 0.4); }
+        }
+
+        /* HIỆU ỨNG KHI HOVER VÀO HẠT NHÂN CÔNG NHÂN */
+        .network-container:hover .connection-line {
+            background-color: #ff4500;
+            box-shadow: 0 0 15px #ff4500;
+        }
+        .network-container:hover .node.satellite {
+            border-color: #ff4500;
+            box-shadow: 0 0 25px rgba(255, 69, 0, 0.6);
+            transform: scale(1.1);
+        }
+        .network-container:hover .node.satellite .node-text { color: #fff; }
+
+        /* Hộp thông tin mô tả bên dưới */
+        .leadership-desc {
+            margin-top: 40px;
+            background-color: rgba(20, 10, 5, 0.85);
+            border-left: 4px solid #ff4500;
+            padding: 20px 30px;
+            color: #d1d5db;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            border-radius: 4px;
+        }
+        .highlight { color: #ff4500; font-weight: bold; }
+
+        @media (max-width: 768px) {
+            .network-container { flex-direction: column; gap: 30px; }
+            .connection-line { width: 4px; height: 100px; top: auto; left: 50%; transform: translateX(-50%); }
+            .line-left { top: 25%; }
+            .line-right { bottom: 25%; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="progress-bar"></div>
+    <button id="music-btn" title="Bật/Tắt nhạc nền">🎵 Nhạc nền</button>
+    <audio id="bg-music" loop>
+        <source src="https://cdn.pixabay.com/download/audio/2022/01/18/audio_d0a13f69d2.mp3?filename=epic-hollywood-trailer-9489.mp3" type="audio/mpeg">
+    </audio>
+
+    <nav>
+        <h1>Lý Luận Sáng Tạo</h1>
+        <ul>
+            <li><a href="index.html">Trang chủ</a></li>
+            <li><a href="cong-nhan.html">Công Nhân</a></li>
+            <li><a href="dan-toc.html">Dân tộc</a></li>
+            <li><a href="viet-nam.html">Việt Nam</a></li>
+            <li><a href="thu-tai.html">Thử Tài</a></li>
+        </ul>
+    </nav>
+
+    <section id="chapter1">
+        <div class="gear-bg">⚙️</div>
+
+        <h2 class="section-title" data-aos="zoom-in">Giai cấp công nhân & Đảng</h2>
+        
+        <div class="industry-grid">
+            <div class="steel-card" data-aos="fade-right" data-aos-delay="100">
+                <div class="steel-icon">🏭</div>
+                <h3>Vị thế Kinh tế</h3>
+                <p>Là những người lao động trực tiếp hay gián tiếp vận hành các công cụ sản xuất có tính chất công nghiệp hiện đại và xã hội hóa cao.</p>
+            </div>
+            
+            <div class="steel-card" data-aos="fade-left" data-aos-delay="200">
+                <div class="steel-icon">⛓️</div>
+                <h3>Vị thế Chính trị</h3>
+                <p>Không sở hữu tư liệu sản xuất chính, mâu thuẫn đối kháng trực tiếp với giai cấp tư sản. Là lực lượng tiên phong trong cách mạng.</p>
+            </div>
+            
+            <div class="steel-card" data-aos="fade-right" data-aos-delay="300">
+                <div class="steel-icon">⚒️</div>
+                <h3>Sứ mệnh Lịch sử</h3>
+                <p>Lãnh đạo nhân dân xóa bỏ ách áp bức tư bản chủ nghĩa, xây dựng thành công xã hội xã hội chủ nghĩa và cộng sản chủ nghĩa.</p>
+            </div>
+            
+            <div class="steel-card" data-aos="fade-left" data-aos-delay="400">
+                <div class="steel-icon">🚩</div>
+                <h3>Vai trò của Đảng</h3>
+                <p>Đảng Cộng sản là nhân tố chủ quan quan trọng nhất, là đội tiên phong đề ra đường lối và tổ chức quần chúng thực hiện thắng lợi.</p>
+            </div>
+        </div>
+        <div class="leadership-section" data-aos="fade-up" data-aos-delay="500">
+            <h3 class="leadership-title">Vai trò Lãnh đạo và Tập hợp lực lượng</h3>
+            
+            <div class="network-container">
+                <div class="connection-line line-left"></div>
+                <div class="connection-line line-right"></div>
+
+                <div class="node satellite">
+                    <div class="node-icon">🌾</div>
+                    <div class="node-text">Nông Dân</div>
+                </div>
+
+                <div class="node core">
+                    <div class="node-icon">⚒️</div>
+                    <div class="node-text">Công Nhân</div>
+                </div>
+
+                <div class="node satellite">
+                    <div class="node-icon">💡</div>
+                    <div class="node-text">Trí Thức</div>
+                </div>
+            </div>
+
+            <div class="leadership-desc" data-aos="zoom-in" data-aos-delay="600">
+                Thông qua đội tiên phong là <span class="highlight">Đảng Cộng sản</span>, giai cấp công nhân không đơn độc chiến đấu mà đóng vai trò là hạt nhân lãnh đạo, xây dựng thành công khối <span class="highlight">Liên minh Công - Nông - Trí thức</span>. Đây là nền tảng vững chắc nhất để tập hợp toàn thể nhân dân lao động, tạo ra sức mạnh dời non lấp biển để hoàn thành sứ mệnh lịch sử.
+                <br><br>
+                <i>(Rê chuột vào biểu tượng Công nhân để xem sức mạnh truyền dẫn lãnh đạo)</i>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 - Sản phẩm sáng tạo môn Chủ nghĩa xã hội khoa học</p>
+    </footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="js/script.js"></script>
+
+</body>
+</html>

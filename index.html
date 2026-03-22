@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hành Trình Lịch Sử - Chủ nghĩa Xã hội</title>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    
+    <style>
+        /* CSS THAY ĐỔI BACKGROUND */
+        #hero {
+            /* Thay đổi ảnh nền cho phần Hero */
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), 
+                        url('https://i.imgur.com/OA10QnY.png') no-repeat center center;
+            background-size: cover;
+            background-attachment: fixed; /* Tạo hiệu ứng cuộn đẹp mắt */
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+        }
+
+        /* Tùy chỉnh thêm để chữ dễ đọc hơn trên nền ảnh */
+        #hero h1 {
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.8);
+            font-size: 4rem;
+        }
+
+        .quote-text {
+            text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.8);
+            font-size: 1.5rem;
+            max-width: 800px;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="progress-bar"></div>
+
+    <button id="music-btn" title="Bật/Tắt nhạc nền">🎵 Nhạc nền</button>
+    <audio id="bg-music" loop>
+       <source src="https://cdn.pixabay.com/download/audio/2021/10/26/audio_a72c1143de.mp3?filename=march-of-the-brave-10332.mp3" type="audio/mpeg">
+    </audio>
+
+    <nav>
+        <h1>Lý Luận Sáng Tạo</h1>
+        <ul>
+            <li><a href="index.html">Trang chủ</a></li>
+            <li><a href="cong-nhan.html">Công Nhân</a></li>
+            <li><a href="dan-toc.html">Dân tộc</a></li>
+            <li><a href="viet-nam.html">Việt Nam</a></li>
+            <li><a href="thu-tai.html">Thử Tài</a></li>
+        </ul>
+    </nav>
+
+    <section id="hero">
+        <h1 data-aos="fade-down" data-aos-duration="1000">Hành Trình Lịch Sử</h1>
+        <p id="typewriter-text" class="quote-text"></p>
+        <a href="#overview" class="btn" data-aos="zoom-in" data-aos-delay="400">Khám Phá Ngay</a>
+    </section>
+
+    <section id="overview" style="padding: 80px 10%; background-color: #fff; border-top: 3px solid #ffcd00;">
+        <h2 class="section-title" data-aos="fade-up">Nội dung chi tiết</h2>
+        
+        <div class="overview-grid">
+            <a href="cong-nhan.html" class="overview-card" data-aos="fade-up" data-aos-delay="100">
+                <div class="card-icon">⚙️</div>
+                <h3>Công Nhân & Đảng</h3>
+                <p>Khám phá vị thế kinh tế, chính trị và sứ mệnh lịch sử của giai cấp công nhân cùng vai trò tiên phong của Đảng.</p>
+            </a>
+
+            <a href="dan-toc.html" class="overview-card" data-aos="fade-up" data-aos-delay="200">
+                <div class="card-icon">🌍</div>
+                <h3>Vấn đề Dân tộc</h3>
+                <p>Tìm hiểu 5 đặc trưng quốc gia dân tộc và Cương lĩnh dân tộc của V.I. Lênin về quyền tự quyết, bình đẳng.</p>
+            </a>
+
+            <a href="viet-nam.html" class="overview-card" data-aos="fade-up" data-aos-delay="300">
+                <div class="card-icon">📜</div>
+                <h3>Cách mạng Việt Nam</h3>
+                <p>Đi sâu vào quy luật Độc lập dân tộc gắn liền với Chủ nghĩa xã hội và sức mạnh của khối Đại đoàn kết.</p>
+            </a>
+
+            <a href="thu-tai.html" class="overview-card" data-aos="fade-up" data-aos-delay="400">
+                <div class="card-icon">💡</div>
+                <h3>Thử Tài Lý Luận</h3>
+                <p>Kiểm tra và củng cố lại những kiến thức lý luận đã học thông qua bài trắc nghiệm nhanh và tương tác thú vị.</p>
+            </a>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 - Sản phẩm sáng tạo môn Chủ nghĩa xã hội khoa học</p>
+    </footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="js/script.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vấn đề Dân tộc - Hành Trình Lịch Sử</title>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    
+    <style>
+        /* CSS GIAO DIỆN TRANG DÂN TỘC */
+        #chapter2 { background: transparent !important; border: none !important; padding-top: 120px; }
+        #chapter2 h2.section-title { color: var(--gold) !important; font-size: 3.5rem; text-shadow: 2px 2px 5px rgba(0,0,0,0.5); }
+        .feat-grid { gap: 25px; }
+        .feat-card { background-color: rgba(58, 35, 24, 0.85) !important; border: 2px solid var(--gold) !important; border-radius: 8px; padding: 30px 15px !important; box-shadow: 0 5px 15px rgba(0,0,0,0.5); background-image: url('') !important; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: all 0.3s ease; }
+        .feat-card:hover { background-color: rgba(90, 50, 30, 0.95) !important; transform: translateY(-10px) scale(1.05) !important; box-shadow: 0 10px 25px rgba(212, 175, 55, 0.3); }
+        .feat-card h4 { color: var(--white); font-size: 1.1rem !important; margin-top: 15px; letter-spacing: 0.5px; }
+        .feat-icon { font-size: 2.8rem; filter: drop-shadow(2px 2px 2px rgba(0,0,0,0.5)); }
+
+        .principle-box { background-color: rgba(58, 35, 24, 0.9) !important; border: 2px solid var(--gold) !important; color: var(--white) !important; margin-top: 40px; }
+        .principle-box h3 { color: var(--gold) !important; text-transform: uppercase; letter-spacing: 1px; }
+        .principle-box li { color: #e0d5b7; }
+
+        /* --- CSS CHO KHỐI BẢN ĐỒ TƯƠNG TÁC --- */
+        .interactive-map-section {
+            margin-top: 80px;
+            padding: 50px;
+            background-color: rgba(20, 10, 5, 0.7); /* Nền tối mờ làm nổi bản đồ */
+            border-top: 2px dashed var(--gold);
+            border-bottom: 2px dashed var(--gold);
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            flex-wrap: wrap;
+        }
+
+        .map-wrapper {
+            position: relative;
+            width: 300px;
+            height: 600px;
+            /* Dùng ảnh bản đồ trắng đen, sau đó dùng CSS filter để nhuộm màu vàng đồng cổ kính */
+            background-image: url('https://static-cms-nhandan.epicdn.me/web/styles/img/54-dt/zone-2-1.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            filter: sepia(1) hue-rotate(-30deg) saturate(3) opacity(0.8) drop-shadow(0 0 15px rgba(212, 175, 55, 0.6));
+            /* Vị trí 3 miền (Đã căn chỉnh lại theo bản đồ của báo Nhân Dân) */
+        .pin-north { top: 17%; left: 30%; }   /* Miền Bắc (Khu vực đồng bằng Bắc Bộ) */
+        .pin-central { top: 40%; left: 46%; } /* Miền Trung (Dọc duyên hải/Tây Nguyên) */
+        .pin-south { top: 65%; left: 48%; }   /* Miền Nam (Khu vực Đông Nam Bộ/ĐBSCL) */
+        }
+
+        /* Các điểm phát sáng trên bản đồ */
+        .map-pin {
+            position: absolute;
+            width: 18px;
+            height: 18px;
+            background-color: #ff3333;
+            border: 2px solid var(--white);
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 10;
+            transition: transform 0.3s;
+        }
+        
+        .map-pin::before {
+            content: '';
+            position: absolute;
+            top: -12px; left: -12px; right: -12px; bottom: -12px;
+            border: 2px solid var(--gold);
+            border-radius: 50%;
+            animation: pulse-pin 1.5s infinite;
+        }
+        
+        @keyframes pulse-pin {
+            0% { transform: scale(0.5); opacity: 1; }
+            100% { transform: scale(2.5); opacity: 0; }
+        }
+
+        .map-pin:hover { transform: scale(1.5); background-color: var(--gold); }
+
+        /* Vị trí 3 miền (Tương đối theo ảnh bản đồ) */
+        .pin-north { top: 18%; left: 45%; }
+        .pin-central { top: 52%; left: 68%; }
+        .pin-south { top: 82%; left: 50%; }
+
+        /* Bảng hiển thị thông tin khi di chuột vào (Tooltip) */
+        .map-info-panel {
+            width: 400px;
+            background-color: #fdfbf7;
+            background-image: url('https://www.transparenttextures.com/patterns/cream-paper.png');
+            border: 3px solid var(--gold);
+            border-radius: 5px;
+            padding: 30px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.6);
+            opacity: 0.3; /* Mờ khi chưa tương tác */
+            transform: translateX(20px);
+            transition: all 0.4s ease;
+            position: relative;
+        }
+        
+        .map-info-panel.active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .map-info-panel h3 {
+            color: var(--primary-red);
+            font-family: var(--font-heading);
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            border-bottom: 2px solid var(--gold);
+            padding-bottom: 10px;
+        }
+
+        .map-info-panel p {
+            color: var(--text-dark);
+            font-size: 1.1rem;
+            line-height: 1.6;
+            font-weight: 500;
+        }
+
+        .instruction {
+            position: absolute;
+            top: -30px;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            color: var(--gold);
+            font-style: italic;
+            animation: blink 2s infinite;
+        }
+
+        @media (max-width: 768px) {
+            .interactive-map-section { flex-direction: column; }
+            .map-info-panel { width: 100%; margin-top: 40px; }
+        }
+        /* --- CSS CHO CƯƠNG LĨNH LÊNIN (3 CỘT TRỤ) --- */
+        .lenin-section {
+            margin-top: 100px;
+            margin-bottom: 50px;
+            text-align: center;
+            padding: 40px;
+            background: linear-gradient(to bottom, rgba(0,0,0,0), rgba(58, 35, 24, 0.6), rgba(0,0,0,0));
+        }
+        .lenin-title {
+            color: var(--gold) !important;
+            font-size: 2.5rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            font-family: var(--font-heading);
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+        }
+        .lenin-subtitle {
+            color: #e0d5b7;
+            font-style: italic;
+            margin-bottom: 40px;
+            font-size: 1.1rem;
+        }
+        .lenin-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        .lenin-card {
+            background-color: rgba(30, 15, 8, 0.85);
+            border: 1px solid rgba(212, 175, 55, 0.4);
+            border-top: 5px solid var(--primary-red);
+            padding: 30px 20px;
+            border-radius: 8px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+            transition: all 0.4s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .lenin-card:hover {
+            transform: translateY(-10px);
+            background-color: rgba(50, 25, 12, 0.95);
+            box-shadow: 0 15px 30px rgba(212, 175, 55, 0.3);
+            border-color: var(--gold);
+        }
+        .lenin-icon {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            filter: drop-shadow(0 0 10px rgba(255,255,255,0.2));
+        }
+        .lenin-card h4 {
+            color: var(--white);
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            line-height: 1.4;
+            border-bottom: 1px dashed rgba(212, 175, 55, 0.5);
+            padding-bottom: 15px;
+            text-align: center;
+            width: 100%;
+        }
+        .lenin-card p {
+            color: #d1c4a5;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            text-align: justify;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="progress-bar"></div>
+    <button id="music-btn" title="Bật/Tắt nhạc nền">🎵 Nhạc nền</button>
+    <audio id="bg-music" loop>
+        <source src="https://cdn.pixabay.com/download/audio/2022/01/18/audio_d0a13f69d2.mp3?filename=epic-hollywood-trailer-9489.mp3" type="audio/mpeg">
+    </audio>
+
+    <nav>
+        <h1>Lý Luận Sáng Tạo</h1>
+        <ul>
+            <li><a href="index.html">Trang chủ</a></li>
+            <li><a href="cong-nhan.html">Công Nhân</a></li>
+            <li><a href="dan-toc.html">Dân tộc</a></li>
+            <li><a href="viet-nam.html">Việt Nam</a></li>
+            <li><a href="thu-tai.html">Thử Tài</a></li>
+        </ul>
+    </nav>
+
+    <section id="chapter2" style="min-height: calc(100vh - 80px);">
+        <h2 class="section-title" data-aos="fade-down">Vấn đề Dân tộc</h2>
+        <h3 style="text-align: center; margin-bottom: 40px; color: #e0d5b7; font-family: var(--font-heading); font-style: italic;">5 Đặc trưng Quốc gia Dân tộc</h3>
+        
+        <div class="feat-grid">
+            <div class="feat-card" data-aos="zoom-in" data-aos-delay="100">
+                <div class="feat-icon">🗺️</div>
+                <h4>Lãnh thổ chung</h4>
+            </div>
+            <div class="feat-card" data-aos="zoom-in" data-aos-delay="200">
+                <div class="feat-icon">🪙</div>
+                <h4>Kinh tế chung</h4>
+            </div>
+            <div class="feat-card" data-aos="zoom-in" data-aos-delay="300">
+                <div class="feat-icon">📜</div>
+                <h4>Ngôn ngữ chung</h4>
+            </div>
+            <div class="feat-card" data-aos="zoom-in" data-aos-delay="400">
+                <div class="feat-icon">🪘</div>
+                <h4>Văn hóa chung</h4>
+            </div>
+            <div class="feat-card" data-aos="zoom-in" data-aos-delay="500">
+                <div class="feat-icon">🏛️</div>
+                <h4>Nhà nước dân tộc</h4>
+            </div>
+        </div>
+
+        <div class="interactive-map-section" data-aos="fade-up">
+            
+            <div class="map-wrapper" data-aos="fade-right">
+                
+                <div class="map-pin pin-north" onmouseover="showMapInfo('north')" onmouseout="resetMapInfo()"></div>
+                <div class="map-pin pin-central" onmouseover="showMapInfo('central')" onmouseout="resetMapInfo()"></div>
+                <div class="map-pin pin-south" onmouseover="showMapInfo('south')" onmouseout="resetMapInfo()"></div>
+            </div>
+
+            <div class="map-info-panel" id="map-info-panel" data-aos="fade-left">
+                <h3 id="map-title">Lãnh Thổ Chung</h3>
+                <p id="map-desc">54 Dân tộc anh em cùng chung sống trên dải đất hình chữ S. Dù miền ngược hay miền xuôi, đồng bằng hay hải đảo, tất cả đều gắn bó máu thịt trong quá trình dựng nước và giữ nước.<br><br><i>Hãy rê chuột vào các điểm phát sáng trên bản đồ để khám phá chi tiết từng vùng miền.</i></p>
+            </div>
+
+        </div>
+
+       <div class="lenin-section" data-aos="fade-up">
+            <h3 class="lenin-title">Cương lĩnh dân tộc của V.I. Lênin</h3>
+            <p class="lenin-subtitle">Kim chỉ nam cho chính sách đại đoàn kết và giải quyết vấn đề dân tộc</p>
+            
+            <div class="lenin-grid">
+                <div class="lenin-card" data-aos="flip-left" data-aos-delay="100">
+                    <div class="lenin-icon">⚖️</div>
+                    <h4>Các dân tộc hoàn toàn bình đẳng</h4>
+                    <p>Không một dân tộc nào được giữ đặc quyền đặc lợi. Các dân tộc, dù đông hay ít người, dù trình độ phát triển cao hay thấp, đều có quyền lợi và nghĩa vụ ngang nhau về mọi mặt kinh tế, chính trị, văn hóa, ngôn ngữ.</p>
+                </div>
+                
+                <div class="lenin-card" data-aos="flip-left" data-aos-delay="300">
+                    <div class="lenin-icon">✊</div>
+                    <h4>Các dân tộc được quyền tự quyết</h4>
+                    <p>Mỗi dân tộc có quyền tự quyết định con đường phát triển của mình. Điều này bao gồm quyền tự do phân lập thành một quốc gia độc lập hoặc tự nguyện liên hiệp với các dân tộc khác trên cơ sở bình đẳng.</p>
+                </div>
+                
+                <div class="lenin-card" data-aos="flip-left" data-aos-delay="500">
+                    <div class="lenin-icon">🤝</div>
+                    <h4>Liên hiệp công nhân tất cả các dân tộc</h4>
+                    <p>Đây là tư tưởng cốt lõi. Sự đoàn kết của giai cấp công nhân thuộc mọi dân tộc là cơ sở vững chắc nhất để xóa bỏ ách áp bức, bóc lột và giải quyết triệt để các vấn đề mâu thuẫn dân tộc.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 - Sản phẩm sáng tạo môn Chủ nghĩa xã hội khoa học</p>
+    </footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="js/script.js"></script>
+    
+    <script>
+        const mapData = {
+            'north': {
+                title: 'Miền Bắc - Cội Nguồn',
+                desc: 'Nơi sinh sống của các dân tộc Tày, Nùng, Thái, Mường, H\'Mông, Dao... Gắn liền với cái nôi của nền văn minh lúa nước sông Hồng và những di sản văn hóa rực rỡ buổi đầu dựng nước.'
+            },
+            'central': {
+                title: 'Miền Trung - Kiên Cường',
+                desc: 'Dải đất hẹp đầy nắng gió, nơi giao thoa văn hóa của người Kinh, Chăm, Cơ Tu, Ê Đê, Ba Na, Gia Rai... Một vùng đất kiên cường, bất khuất nối liền hai đầu đất nước.'
+            },
+            'south': {
+                title: 'Miền Nam - Nghĩa Tình',
+                desc: 'Vùng đất trù phú với sự cộng cư hòa hợp của người Kinh, Hoa, Khmer, Chăm... Biểu tượng của sự năng động, cởi mở, hào sảng và nghĩa tình trong công cuộc mở cõi.'
+            }
+        };
+
+        const panel = document.getElementById('map-info-panel');
+        const titleEl = document.getElementById('map-title');
+        const descEl = document.getElementById('map-desc');
+
+        function showMapInfo(region) {
+            panel.classList.add('active');
+            titleEl.innerText = mapData[region].title;
+            descEl.innerHTML = mapData[region].desc;
+        }
+
+        function resetMapInfo() {
+            panel.classList.remove('active');
+            // Sau khi chuột rời đi 0.4s (đợi animation chạy xong), trả về text gốc
+            setTimeout(() => {
+                if(!panel.classList.contains('active')) {
+                    titleEl.innerText = 'Lãnh Thổ Chung';
+                    descEl.innerHTML = '54 Dân tộc anh em cùng chung sống trên dải đất hình chữ S. Dù miền ngược hay miền xuôi, đồng bằng hay hải đảo, tất cả đều gắn bó máu thịt trong quá trình dựng nước và giữ nước.<br><br><i>Hãy rê chuột vào các điểm phát sáng trên bản đồ để khám phá chi tiết.</i>';
+                }
+            }, 400);
+        }
+    </script>
+
+</body>
+</html>
