@@ -8,32 +8,93 @@
     <link rel="stylesheet" href="css/style.css">
     
     <style>
-        /* CSS THAY ĐỔI BACKGROUND */
+        /* CSS TỐI ƯU GIAO DIỆN */
+        :root {
+            --gold-primary: #FFD700;
+            --gold-light: #FFF176;
+            --dark-red: #4A0E0E;
+        }
+
+        body {
+            font-family: 'Times New Roman', Times, serif; /* Tạo nét cổ điển, lịch sử */
+            margin: 0;
+            background-color: #1a1a1a;
+            color: #f5f5f5;
+        }
+
         #hero {
-            /* Thay đổi ảnh nền cho phần Hero */
-            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), 
+            /* Lớp phủ đậm hơn để làm nổi bật màu vàng gold */
+            background: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)), 
                         url('https://i.imgur.com/OA10QnY.png') no-repeat center center;
             background-size: cover;
-            background-attachment: fixed; /* Tạo hiệu ứng cuộn đẹp mắt */
+            background-attachment: fixed;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             text-align: center;
-            color: white;
+            padding: 0 20px;
         }
 
-        /* Tùy chỉnh thêm để chữ dễ đọc hơn trên nền ảnh */
         #hero h1 {
-            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.8);
-            font-size: 4rem;
+            color: var(--gold-primary); /* Chuyển sang màu vàng đồng */
+            text-shadow: 3px 3px 15px rgba(0, 0, 0, 0.9);
+            font-size: clamp(2.5rem, 8vw, 5rem); /* Tự động co giãn theo màn hình */
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
         }
 
         .quote-text {
-            text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.8);
-            font-size: 1.5rem;
-            max-width: 800px;
+            color: var(--gold-light); /* Màu vàng nhạt cho trích dẫn */
+            text-shadow: 1px 1px 8px rgba(0, 0, 0, 0.9);
+            font-size: 1.4rem;
+            max-width: 900px;
+            font-style: italic;
+            line-height: 1.6;
+        }
+
+        /* Nút bấm đồng bộ với phong cách Cách mạng */
+        .btn {
+            background: linear-gradient(135deg, #d32f2f 0%, #b71c1c 100%);
+            color: white;
+            padding: 15px 35px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            border: 1px solid var(--gold-primary);
+            transition: 0.4s;
+            margin-top: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        }
+
+        .btn:hover {
+            background: var(--gold-primary);
+            color: #000;
+            transform: scale(1.05);
+        }
+
+        /* Phần nội dung phía dưới */
+        #overview {
+            padding: 80px 10%;
+            background-color: #262626 !important; /* Đổi sang nền tối cho sang trọng */
+            border-top: 4px solid var(--gold-primary);
+        }
+
+        .section-title {
+            color: var(--gold-primary);
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 50px;
+        }
+
+        footer {
+            background-color: #121212;
+            color: #888;
+            padding: 30px;
+            text-align: center;
+            border-top: 1px solid #333;
         }
     </style>
 </head>
@@ -63,7 +124,7 @@
         <a href="#overview" class="btn" data-aos="zoom-in" data-aos-delay="400">Khám Phá Ngay</a>
     </section>
 
-    <section id="overview" style="padding: 80px 10%; background-color: #fff; border-top: 3px solid #ffcd00;">
+    <section id="overview">
         <h2 class="section-title" data-aos="fade-up">Nội dung chi tiết</h2>
         
         <div class="overview-grid">
@@ -98,7 +159,21 @@
     </footer>
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script src="js/script.js"></script>
-
+    <script>
+        // Khởi tạo hiệu ứng AOS
+        AOS.init();
+        
+        // Đoạn script bổ sung để test hiệu ứng typewriter nếu script.js chưa có
+        const text = "Sứ mệnh lịch sử của giai cấp công nhân là xóa bỏ chế độ tư bản chủ nghĩa, xây dựng xã hội mới - Chủ nghĩa xã hội và Chủ nghĩa cộng sản.";
+        let index = 0;
+        function typeWriter() {
+            if (index < text.length) {
+                document.getElementById("typewriter-text").innerHTML += text.charAt(index);
+                index++;
+                setTimeout(typeWriter, 50);
+            }
+        }
+        window.onload = typeWriter;
+    </script>
 </body>
 </html>
