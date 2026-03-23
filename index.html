@@ -1,179 +1,178 @@
 <!DOCTYPE html>
 <html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hành Trình Lịch Sử - Chủ nghĩa Xã hội</title>
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css">
-    
-    <style>
-        /* CSS TỐI ƯU GIAO DIỆN */
-        :root {
-            --gold-primary: #FFD700;
-            --gold-light: #FFF176;
-            --dark-red: #4A0E0E;
-        }
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Hành Trình Lịch Sử - Chủ nghĩa Xã hội</title>
+        <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+        <link rel="stylesheet" href="css/style.css">
 
-        body {
-            font-family: 'Times New Roman', Times, serif; /* Tạo nét cổ điển, lịch sử */
-            margin: 0;
-            background-color: #1a1a1a;
-            color: #f5f5f5;
-        }
-
-        #hero {
-            /* Lớp phủ đậm hơn để làm nổi bật màu vàng gold */
-            background: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)), 
-                        url('https://i.imgur.com/OA10QnY.png') no-repeat center center;
-            background-size: cover;
-            background-attachment: fixed;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 0 20px;
-        }
-
-        #hero h1 {
-            color: var(--gold-primary); /* Chuyển sang màu vàng đồng */
-            text-shadow: 3px 3px 15px rgba(0, 0, 0, 0.9);
-            font-size: clamp(2.5rem, 8vw, 5rem); /* Tự động co giãn theo màn hình */
-            margin-bottom: 20px;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-        }
-
-        .quote-text {
-            color: var(--gold-light); /* Màu vàng nhạt cho trích dẫn */
-            text-shadow: 1px 1px 8px rgba(0, 0, 0, 0.9);
-            font-size: 1.4rem;
-            max-width: 900px;
-            font-style: italic;
-            line-height: 1.6;
-        }
-
-        /* Nút bấm đồng bộ với phong cách Cách mạng */
-        .btn {
-            background: linear-gradient(135deg, #d32f2f 0%, #b71c1c 100%);
-            color: white;
-            padding: 15px 35px;
-            text-decoration: none;
-            border-radius: 5px;
-            font-weight: bold;
-            border: 1px solid var(--gold-primary);
-            transition: 0.4s;
-            margin-top: 30px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-        }
-
-        .btn:hover {
-            background: var(--gold-primary);
-            color: #000;
-            transform: scale(1.05);
-        }
-
-        /* Phần nội dung phía dưới */
-        #overview {
-            padding: 80px 10%;
-            background-color: #262626 !important; /* Đổi sang nền tối cho sang trọng */
-            border-top: 4px solid var(--gold-primary);
-        }
-
-        .section-title {
-            color: var(--gold-primary);
-            text-align: center;
-            font-size: 2.5rem;
-            margin-bottom: 50px;
-        }
-
-        footer {
-            background-color: #121212;
-            color: #888;
-            padding: 30px;
-            text-align: center;
-            border-top: 1px solid #333;
-        }
-    </style>
-</head>
-<body>
-
-    <div id="progress-bar"></div>
-
-    <button id="music-btn" title="Bật/Tắt nhạc nền">🎵 Nhạc nền</button>
-    <audio id="bg-music" loop>
-       <source src="https://cdn.pixabay.com/download/audio/2021/10/26/audio_a72c1143de.mp3?filename=march-of-the-brave-10332.mp3" type="audio/mpeg">
-    </audio>
-
-    <nav>
-        <h1>Lý Luận Sáng Tạo</h1>
-        <ul>
-            <li><a href="index.html">Trang chủ</a></li>
-            <li><a href="cong-nhan.html">Công Nhân</a></li>
-            <li><a href="dan-toc.html">Dân tộc</a></li>
-            <li><a href="viet-nam.html">Việt Nam</a></li>
-            <li><a href="thu-tai.html">Thử Tài</a></li>
-        </ul>
-    </nav>
-
-    <section id="hero">
-        <h1 data-aos="fade-down" data-aos-duration="1000">Hành Trình Lịch Sử</h1>
-        <p id="typewriter-text" class="quote-text"></p>
-        <a href="#overview" class="btn" data-aos="zoom-in" data-aos-delay="400">Khám Phá Ngay</a>
-    </section>
-
-    <section id="overview">
-        <h2 class="section-title" data-aos="fade-up">Nội dung chi tiết</h2>
-        
-        <div class="overview-grid">
-            <a href="cong-nhan.html" class="overview-card" data-aos="fade-up" data-aos-delay="100">
-                <div class="card-icon">⚙️</div>
-                <h3>Công Nhân & Đảng</h3>
-                <p>Khám phá vị thế kinh tế, chính trị và sứ mệnh lịch sử của giai cấp công nhân cùng vai trò tiên phong của Đảng.</p>
-            </a>
-
-            <a href="dan-toc.html" class="overview-card" data-aos="fade-up" data-aos-delay="200">
-                <div class="card-icon">🌍</div>
-                <h3>Vấn đề Dân tộc</h3>
-                <p>Tìm hiểu 5 đặc trưng quốc gia dân tộc và Cương lĩnh dân tộc của V.I. Lênin về quyền tự quyết, bình đẳng.</p>
-            </a>
-
-            <a href="viet-nam.html" class="overview-card" data-aos="fade-up" data-aos-delay="300">
-                <div class="card-icon">📜</div>
-                <h3>Cách mạng Việt Nam</h3>
-                <p>Đi sâu vào quy luật Độc lập dân tộc gắn liền với Chủ nghĩa xã hội và sức mạnh của khối Đại đoàn kết.</p>
-            </a>
-
-            <a href="thu-tai.html" class="overview-card" data-aos="fade-up" data-aos-delay="400">
-                <div class="card-icon">💡</div>
-                <h3>Thử Tài Lý Luận</h3>
-                <p>Kiểm tra và củng cố lại những kiến thức lý luận đã học thông qua bài trắc nghiệm nhanh và tương tác thú vị.</p>
-            </a>
-        </div>
-    </section>
-
-    <footer>
-        <p>&copy; 2026 - Sản phẩm sáng tạo môn Chủ nghĩa xã hội khoa học</p>
-    </footer>
-
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script>
-        // Khởi tạo hiệu ứng AOS
-        AOS.init();
-        
-        // Đoạn script bổ sung để test hiệu ứng typewriter nếu script.js chưa có
-        const text = "Sứ mệnh lịch sử của giai cấp công nhân là xóa bỏ chế độ tư bản chủ nghĩa, xây dựng xã hội mới - Chủ nghĩa xã hội và Chủ nghĩa cộng sản.";
-        let index = 0;
-        function typeWriter() {
-            if (index < text.length) {
-                document.getElementById("typewriter-text").innerHTML += text.charAt(index);
-                index++;
-                setTimeout(typeWriter, 50);
+        <style>
+            /* CSS TỐI ƯU GIAO DIỆN */
+            :root {
+                --gold-primary: #FFD700;
+                --gold-light: #FFF176;
+                --dark-red: #4A0E0E;
             }
-        }
-        window.onload = typeWriter;
-    </script>
+
+
+
+            #hero {
+                /* Lớp phủ đậm hơn để làm nổi bật màu vàng gold */
+                background: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)),
+                    url('https://i.imgur.com/OA10QnY.png') no-repeat center center;
+                background-size: cover;
+                background-attachment: fixed;
+                min-height: 100vh;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                text-align: center;
+                padding: 0 20px;
+            }
+
+            #hero h1 {
+                color: var(--gold-primary); /* Chuyển sang màu vàng đồng */
+                text-shadow: 3px 3px 15px rgba(0, 0, 0, 0.9);
+                font-size: clamp(2.5rem, 8vw, 5rem); /* Tự động co giãn theo màn hình */
+                margin-bottom: 20px;
+                text-transform: uppercase;
+                letter-spacing: 3px;
+            }
+
+            .quote-text {
+                color: var(--gold-light); /* Màu vàng nhạt cho trích dẫn */
+                text-shadow: 1px 1px 8px rgba(0, 0, 0, 0.9);
+                font-size: 1.4rem;
+                max-width: 900px;
+                font-style: italic;
+                line-height: 1.6;
+            }
+
+            /* Nút bấm đồng bộ với phong cách Cách mạng */
+            .btn {
+                background: linear-gradient(135deg, #d32f2f 0%, #b71c1c 100%);
+                color: white;
+                padding: 15px 35px;
+                text-decoration: none;
+                border-radius: 5px;
+                font-weight: bold;
+                border: 1px solid var(--gold-primary);
+                transition: 0.4s;
+                margin-top: 30px;
+                box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            }
+
+            .btn:hover {
+                background: var(--gold-primary);
+                color: #000;
+                transform: scale(1.05);
+            }
+
+            /* Phần nội dung phía dưới */
+            #overview {
+                padding: 80px 10%;
+                background-color: #262626 !important; /* Đổi sang nền tối cho sang trọng */
+                border-top: 4px solid var(--gold-primary);
+            }
+
+            .section-title {
+                color: var(--gold-primary);
+                text-align: center;
+                font-size: 2.5rem;
+                margin-bottom: 50px;
+            }
+
+            footer {
+                background-color: #121212;
+                color: #888;
+                padding: 30px;
+                text-align: center;
+                border-top: 1px solid #333;
+            }
+          
+
+        </style>
+    </head>
+    <body>
+
+        <div id="progress-bar"></div>
+
+        <button id="music-btn" title="Bật/Tắt nhạc nền">🎵 Nhạc nền</button>
+        <audio id="bg-music" loop>
+            <source src="https://cdn.pixabay.com/download/audio/2021/10/26/audio_a72c1143de.mp3?filename=march-of-the-brave-10332.mp3" type="audio/mpeg">
+        </audio>
+
+        <nav>
+            <h1>Lý Luận Sáng Tạo</h1>
+            <ul>
+                <li><a href="index.html">Trang chủ</a></li>
+                <li><a href="cong-nhan.html">Công Nhân</a></li>
+                <li><a href="dan-toc.html">Dân tộc</a></li>
+                <li><a href="viet-nam.html">Việt Nam</a></li>
+                <li><a href="thu-tai.html">Thử Tài</a></li>
+                <li><a href="trai-nghiem.html" class="active-link">Trải Nghiệm</a></li>
+            </ul>
+        </nav>
+
+        <section id="hero">
+            <h1 data-aos="fade-down" data-aos-duration="1000">Hành Trình Lịch Sử</h1>
+            <p id="typewriter-text" class="quote-text"></p>
+            <a href="#overview" class="btn" data-aos="zoom-in" data-aos-delay="400">Khám Phá Ngay</a>
+        </section>
+
+        <section id="overview">
+            <h2 class="section-title" data-aos="fade-up">Nội dung chi tiết</h2>
+
+            <div class="overview-grid">
+                <a href="cong-nhan.html" class="overview-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="card-icon">⚙️</div>
+                    <h3>Công Nhân & Đảng</h3>
+                    <p>Khám phá vị thế kinh tế, chính trị và sứ mệnh lịch sử của giai cấp công nhân cùng vai trò tiên phong của Đảng.</p>
+                </a>
+
+                <a href="dan-toc.html" class="overview-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="card-icon">🌍</div>
+                    <h3>Vấn đề Dân tộc</h3>
+                    <p>Tìm hiểu 5 đặc trưng quốc gia dân tộc và Cương lĩnh dân tộc của V.I. Lênin về quyền tự quyết, bình đẳng.</p>
+                </a>
+
+                <a href="viet-nam.html" class="overview-card" data-aos="fade-up" data-aos-delay="300">
+                    <div class="card-icon">📜</div>
+                    <h3>Cách mạng Việt Nam</h3>
+                    <p>Đi sâu vào quy luật Độc lập dân tộc gắn liền với Chủ nghĩa xã hội và sức mạnh của khối Đại đoàn kết.</p>
+                </a>
+
+                <a href="thu-tai.html" class="overview-card" data-aos="fade-up" data-aos-delay="400">
+                    <div class="card-icon">💡</div>
+                    <h3>Thử Tài Lý Luận</h3>
+                    <p>Kiểm tra và củng cố lại những kiến thức lý luận đã học thông qua bài trắc nghiệm nhanh và tương tác thú vị.</p>
+                </a>
+            </div>
+        </section>
+
+        <footer>
+            <p>&copy; 2026 - Sản phẩm sáng tạo môn Chủ nghĩa xã hội khoa học</p>
+        </footer>
+
+        <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+        <script>
+            // Khởi tạo hiệu ứng AOS
+            AOS.init();
+
+            // Đoạn script bổ sung để test hiệu ứng typewriter nếu script.js chưa có
+            const text = "Sứ mệnh lịch sử của giai cấp công nhân là xóa bỏ chế độ tư bản chủ nghĩa, xây dựng xã hội mới - Chủ nghĩa xã hội và Chủ nghĩa cộng sản.";
+            let index = 0;
+            function typeWriter() {
+                if (index < text.length) {
+                    document.getElementById("typewriter-text").innerHTML += text.charAt(index);
+                    index++;
+                    setTimeout(typeWriter, 50);
+                }
+            }
+            window.onload = typeWriter;
+        </script>
+       
 </body>
 </html>

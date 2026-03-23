@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hành Trình Phụng Sự - Dòng Chảy Di Sản</title>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+       :root {
+            --gold-primary: #FFD700;
+            --gold-light: #FFF176;
+            --dark-red: #4A0E0E;
+            --bg-dark: #1a0000;
+        }
+        /* Game UI */
+        .main-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 20px;
+            margin-top: 50px;
+        }
+
+        .stats-panel {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 30px;
+            background: var(--glass);
+            padding: 15px 30px;
+            border-radius: 50px;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            backdrop-filter: blur(10px);
+        }
+        .stat-item { display: flex; align-items: center; gap: 10px; font-weight: bold; color: var(--gold); }
+
+        .story-box {
+            background: rgba(20, 20, 20, 0.9);
+            max-width: 700px;
+            width: 100%;
+            padding: 70px;
+            border-radius: 20px;
+            border: 1px solid #333;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+            text-align: center;
+            position: relative;
+            transition: all 0.5s ease;
+        }
+
+        .role-badge {
+            position: absolute;
+            top: 15px; left: 50%;
+            transform: translateX(-50%);
+            background: var(--red);
+            padding: 5px 20px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            border: 1px solid var(--gold);
+        }
+
+        .icon-display { font-size: 5rem; margin-bottom: 20px; filter: drop-shadow(0 0 10px var(--red)); }
+        
+        .scenario-text {
+            font-size: 1.4rem;
+            line-height: 1.7;
+            margin-bottom: 40px;
+            color: #ddd;
+        }
+
+        .btn-group { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .choice-btn {
+            background: var(--glass);
+            border: 1px solid #444;
+            color: white;
+            padding: 20px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            border-radius: 12px;
+            transition: 0.3s all;
+            font-family: 'Times New Roman', serif;
+        }
+        .choice-btn:hover {
+            border-color: var(--gold);
+            background: rgba(255, 215, 0, 0.1);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.2);
+        }
+
+        /* Result Styles */
+        .ending { display: none; }
+        .win { color: var(--gold); }
+        .fail { color: var(--red); }
+
+    
+    </style>
+</head>
+<body>
+
+    <nav>
+        <h1>Lý Luận Sáng Tạo</h1>
+        <ul>
+            <li><a href="index.html">Trang chủ</a></li>
+            <li><a href="cong-nhan.html">Công Nhân</a></li>
+            <li><a href="dan-toc.html">Dân tộc</a></li>
+            <li><a href="viet-nam.html">Việt Nam</a></li>
+            <li><a href="thu-tai.html" class="active">Thử Tài</a></li>
+            <li><a href="trai-nghiem.html" class="active-link">Trải Nghiệm</a></li>
+        </ul>
+    </nav>
+
+    <div class="main-container">
+        <div class="stats-panel" data-aos="fade-down">
+            <div class="stat-item">🎖️ <span id="stat-rank">Nhân dân</span></div>
+            <div class="stat-item">⭐ Uy tín: <span id="stat-rep">50</span></div>
+        </div>
+
+        <div class="story-box" id="game-card" data-aos="zoom-in">
+            <div class="role-badge">TIẾN TRÌNH LỊCH SỬ</div>
+            <div class="icon-display" id="icon-display">🌱</div>
+            <div class="scenario-text" id="scenario-text">
+                Chào mừng bạn đến với chương trình mô phỏng cuộc đời cán bộ cách mạng. Mọi lựa chọn của bạn đều ảnh hưởng đến vận mệnh dân tộc. Bạn đã sẵn sàng chưa?
+            </div>
+            <div class="btn-group" id="btn-group">
+                </div>
+        </div>
+
+        <div class="story-box ending" id="ending-card">
+            <div class="icon-display" id="end-icon">⚠️</div>
+            <h2 id="end-title">KẾT THÚC</h2>
+            <p class="scenario-text" id="end-msg"></p>
+            <button class="choice-btn" style="width:100%" onclick="location.reload()">Bắt đầu lại hành trình</button>
+        </div>
+    </div>
+
+   <footer>
+        <p>&copy; 2026 - Sản phẩm sáng tạo môn Chủ nghĩa xã hội khoa học</p>
+    </footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init();
+
+        const gameData = {
+
+    // ===== GIAI ĐOẠN 1: CÁN BỘ CƠ SỞ =====
+
+    start: {
+        icon: "🎓",
+        text: "Năm 2026, bạn tốt nghiệp Học viện Chính trị và được phân công về vùng cao.",
+        choices: [
+            { text: "Nhận nhiệm vụ", next: "huyen", rep: 20, rank: "Cán bộ tập sự" },
+            { text: "Ở lại thành phố", next: "fail_ca_nhan" }
+        ]
+    },
+
+    huyen: {
+        icon: "⛰️",
+        text: "Người dân tại địa phương đang bị các phần tử xấu lôi kéo theo tà đạo, gây bất ổn an ninh.",
+        choices: [ 
+            { text: "Ra lệnh cưỡng chế ngay lập tức", next: "fail_quan_lieu" },
+            { text: "Kiên trì '3 cùng' với dân, vận động khéo léo", next: "thien_tai", rep: 30, rank: "Bí thư xã" }
+           
+        ]
+    },
+
+    thien_tai: {
+        icon: "🌊",
+        text: "Cơn bão số 3 đổ bộ, đe dọa vỡ đê tại xã bạn quản lý. Nước dâng rất nhanh.",
+        choices: [
+            { text: "Mặc áo phao, trực tiếp ra hiện trường đắp đê", next: "kinh_te_huyen", rep: 40, rank: "Chủ tịch Huyện" },
+            { text: "Ngồi phòng họp nghe báo cáo qua điện thoại", next: "fail_quan_lieu" },
+            { text: "Báo cáo vượt cấp xin cứu viện lập tức", next: "trung_binh_thien_tai", rep: 10 }
+        ]
+    },
+
+    trung_binh_thien_tai: {
+        icon: "🌧️",
+        text: "Huyện an toàn nhờ cấp trên can thiệp kịp thời, nhưng bạn bị đánh giá là thiếu quyết đoán.",
+        choices: [
+            { text: "Rút kinh nghiệm, sâu sát thực tế hơn", next: "kinh_te_huyen", rep: 20 },
+            { text: "Đổ lỗi cho cấp dưới chậm trễ", next: "fail_co_hoi" }
+        ]
+    },
+
+    // ===== GIAI ĐOẠN 2: LÃNH ĐẠO CẤP HUYỆN/TỈNH =====
+
+    kinh_te_huyen: {
+        icon: "🛒",
+        text: "Nông sản địa phương 'được mùa mất giá', hàng nghìn tấn trái cây thối rữa. Bà con đang kêu cứu.",
+        choices: [
+            { text: "Mời TikToker về livestream, mở kênh thương mại điện tử", next: "thanh_cong", rep: 50, rank: "Bí thư Huyện ủy" },
+            { text: "Dùng ngân sách nhà nước mua giải cứu tạm thời", next: "fail_kinh_te" },
+            { text: "Đó là quy luật thị trường, để dân tự lo", next: "fail_quan_lieu" }
+        ]
+    },
+
+    thanh_cong: {
+        icon: "📈",
+        text: "Với thành tích xuất sắc, bạn lên chức. Có một tập đoàn lớn ngỏ ý tặng 'biệt thự' để duyệt nhanh dự án sân golf trên đất rừng.",
+        choices: [
+            { text: "Kiên quyết từ chối, bảo vệ rừng", next: "giai_phong_mat_bang", rep: 40, rank: "Chủ tịch Tỉnh" },
+            { text: "Nhận nhưng hối hận", next: "bi_phat_hien", rep: 10 },
+            { text: "Nhận luôn vì cần tiền", next: "fail_tham_nhung" }
+        ]
+    },
+
+    giai_phong_mat_bang: {
+        icon: "🏗️",
+        text: "Tỉnh triển khai dự án cao tốc trọng điểm quốc gia, nhưng một số hộ dân phản đối gay gắt mức đền bù.",
+        choices: [
+            { text: "Trực tiếp đối thoại, giải quyết thấu tình đạt lý", next: "moi_truong_tinh", rep: 50, rank: "Bí thư Tỉnh ủy" },
+            { text: "Huy động lực lượng cưỡng chế ban đêm", next: "fail_bao_luc" },
+            { text: "Đình chỉ dự án để né trách nhiệm", next: "fail_co_hoi" }
+        ]
+    },
+
+    moi_truong_tinh: {
+        icon: "🏭",
+        text: "Một nhà máy FDI xả thải trộm ra sông làm cá chết hàng loạt. Báo chí đã vào cuộc. Tập đoàn này đóng góp tới 30% ngân sách tỉnh.",
+        choices: [
+            { text: "Đình chỉ nhà máy, yêu cầu bồi thường sinh thái", next: "trung_uong", rep: 60, rank: "Bộ trưởng" },
+            { text: "Chỉ phạt hành chính nhẹ để giữ chân FDI", next: "fail_moi_truong" },
+            { text: "Ỉm đi, cấm báo chí địa phương đưa tin", next: "fail_tham_nhung" }
+        ]
+    },
+
+    // ===== NHÁNH CHUỘC LỖI (NẾU NHẬN HỐI LỘ NHƯNG BIẾT QUAY ĐẦU) =====
+
+    bi_phat_hien: {
+        icon: "🕵️",
+        text: "Sai phạm nhận quà bị Ủy ban Kiểm tra phát hiện. Bạn bị kiểm điểm nghiêm khắc.",
+        choices: [
+            { text: "Thành khẩn khai báo, nộp lại tài sản", next: "duoc_khoan_hong", rep: -20 },
+            { text: "Chối phăng, tẩu tán tài sản", next: "fail_tham_nhung" }
+        ]
+    },
+
+    duoc_khoan_hong: {
+        icon: "📉",
+        text: "Bạn bị giáng chức nhưng tổ chức vẫn tạo cơ hội để bạn tự sửa sai.",
+        choices: [
+            { text: "Quyết tâm làm lại từ đầu", next: "lam_lai", rep: 10, rank: "Cán bộ cơ sở" },
+            { text: "Nản chí xin nghỉ việc", next: "fail_ca_nhan" }
+        ]
+    },
+
+    lam_lai: {
+        icon: "🌱",
+        text: "Trở lại làm việc từ cơ sở, bạn phải đối mặt với ánh mắt hoài nghi của đồng nghiệp và nhân dân.",
+        choices: [
+            { text: "Lấy hành động thực tế chứng minh", next: "tro_lai_trung_uong", rep: 40 },
+            { text: "Làm việc cầm chừng qua ngày", next: "fail_co_hoi" }
+        ]
+    },
+
+    tro_lai_trung_uong: {
+        icon: "🏛️",
+        text: "Nhiều năm nỗ lực, uy tín khôi phục, bạn được xem xét cất nhắc lại.",
+        choices: [
+            { text: "Tiếp tục cống hiến không mệt mỏi", next: "ket_thuc_trung_binh", rep: 20 },
+            { text: "Cho rằng mình đã 'tẩy trắng' thành công", next: "fail_co_hoi" }
+        ]
+    },
+
+    ket_thuc_trung_binh: {
+        icon: "🏅",
+        text: "KẾT THÚC: Bạn không chạm tới đỉnh cao quyền lực, nhưng câu chuyện 'đứng lên từ vấp ngã' của bạn truyền cảm hứng lớn.",
+        choices: [
+            { text: "Xem lại hành trình", next: "start" }
+        ]
+    },
+
+    // ===== GIAI ĐOẠN 3: LÃNH ĐẠO CẤP CAO QUỐC GIA =====
+
+    trung_uong: {
+        icon: "🔥",
+        text: "Trên cương vị Bộ trưởng, bạn phát hiện một đường dây tham nhũng lớn liên quan đến nhiều cán bộ cấp cao trong bộ máy.",
+        choices: [
+            { text: "Kiên quyết 'đốt lò', xử lý không có vùng cấm", next: "chat_van_quoc_hoi", rep: 50, rank: "Phó Thủ tướng" },
+            { text: "Bao che, xử lý nội bộ để giữ thành tích", next: "fail_co_hoi" }
+        ]
+    },
+
+    chat_van_quoc_hoi: {
+        icon: "🎤",
+        text: "Kỳ họp Quốc hội, bạn bị đại biểu chất vấn gay gắt về việc chậm trễ giải ngân đầu tư công kéo dài nhiều năm.",
+        choices: [
+            { text: "Nhận trách nhiệm, đưa ra cam kết tiến độ rõ ràng", next: "doi_ngoai", rep: 50, rank: "Ủy viên Bộ Chính trị" },
+            { text: "Đọc báo cáo vòng vo, đổ lỗi cho cơ chế", next: "fail_nghi_truong" },
+            { text: "Đổ lỗi cho nhiệm kỳ trước", next: "fail_nghi_truong" }
+        ]
+    },
+
+    doi_ngoai: {
+        icon: "🌍",
+        text: "Tình hình địa chính trị căng thẳng. Một cường quốc gây áp lực kinh tế, ép Việt Nam 'chọn phe'.",
+        choices: [
+            { text: "Ngoại giao 'cây tre', giữ vững độc lập tự chủ", next: "final", rep: 60, rank: "Thường trực Ban Bí thư" },
+            { text: "Nhượng bộ để đổi lấy lợi ích kinh tế trước mắt", next: "fail_nhuong_bo" },
+            { text: "Phản ứng gay gắt trên truyền thông quốc tế", next: "fail_ngoai_giao" }
+        ]
+    },
+
+    final: {
+        icon: "🇻🇳",
+        text: "Đại hội Đảng thành công tốt đẹp. Bạn được Ban Chấp hành Trung ương tín nhiệm tuyệt đối giới thiệu cho chức danh Chủ tịch nước.",
+        choices: [
+            { text: "Tuyên thệ tuyệt đối trung thành với Tổ quốc và Nhân dân", next: "win_game" }
+        ]
+    },
+
+    // ===== ENDINGS (CÁC KẾT THÚC THẤT BẠI) =====
+
+    fail_ca_nhan: { icon: "💼", title: "RẼ HƯỚNG", msg: "Bạn rời bỏ con đường phục vụ nhân dân để lo lợi ích cá nhân." },
+    fail_quan_lieu: { icon: "📢", title: "MẤT LÒNG DÂN", msg: "Thái độ quan liêu, xa rời quần chúng khiến bạn bị kỷ luật và loại khỏi bộ máy." },
+    fail_tham_nhung: { icon: "⚖️", title: "SA LƯỚI PHÁP LUẬT", msg: "Lòng tham đã làm mờ mắt bạn. Bạn bị khởi tố và chịu bản án nghiêm khắc của pháp luật." },
+    fail_co_hoi: { icon: "⚠️", title: "TỰ DIỄN BIẾN", msg: "Thiếu bản lĩnh chính trị và tư tưởng bảo thủ khiến bạn bị tụt lại phía sau và mất tín nhiệm." },
+    fail_bao_luc: { icon: "🔥", title: "ĐIỂM NÓNG XÃ HỘI", msg: "Quyết định nóng vội của bạn đã gây ra bạo động. Bạn bị cách chức vì quản lý kém." },
+    fail_nhuong_bo: { icon: "🏳️", title: "MẤT CHỦ QUYỀN", msg: "Sự nhượng bộ của bạn làm tổn hại lợi ích quốc gia. Bạn bị bãi nhiệm ngay lập tức." },
+    fail_ngoai_giao: { icon: "📉", title: "CÔ LẬP KINH TẾ", msg: "Phản ứng thiếu khôn khéo đã đẩy đất nước vào thế bị cô lập. Bạn phải từ chức." },
+    
+    // Các Ending mới thêm
+    fail_kinh_te: { icon: "💸", title: "LÃNG PHÍ NGÂN SÁCH", msg: "Tư duy quản lý cũ kỹ gây lãng phí ngân sách lớn, không giải quyết được tận gốc vấn đề. Bạn bị chuyển công tác." },
+    fail_moi_truong: { icon: "☠️", title: "THẢM HỌA SINH THÁI", msg: "Đánh đổi môi trường lấy kinh tế đã tạo ra thảm họa hệ sinh thái nghiêm trọng. Bạn bị Trung ương kỷ luật." },
+    fail_nghi_truong: { icon: "❌", title: "MẤT TÍN NHIỆM", msg: "Sự vòng vo, thiếu trách nhiệm trước Quốc hội khiến bạn đánh mất hoàn toàn niềm tin của cử tri." },
+
+    // ===== ENDING THÀNH CÔNG =====
+    win_game: { 
+        icon: "🌟", 
+        title: "CHỦ TỊCH NƯỚC CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM", 
+        msg: "Chúc mừng! Bản lĩnh, trí tuệ, sự thanh liêm và tinh thần đổi mới sáng tạo đã đưa bạn lên vị trí lãnh đạo cao nhất. Dân tộc tự hào về bạn!" 
+    }
+};
+
+        let currentStats = { rep: 50, rank: "Nhân dân" };
+
+        function updateDisplay(step) {
+            const data = gameData[step];
+            const isWin = step === 'win_game';
+            const isFail = step.startsWith('fail');
+
+            if (isWin || isFail) {
+                document.getElementById('game-card').style.display = 'none';
+                const endCard = document.getElementById('ending-card');
+                endCard.style.display = 'block';
+                document.getElementById('end-icon').innerText = data.icon;
+                document.getElementById('end-title').innerText = data.title;
+                document.getElementById('end-title').className = isWin ? 'win' : 'fail';
+                document.getElementById('end-msg').innerText = data.msg;
+                return;
+            }
+
+            // Hiệu ứng mờ dần khi chuyển cảnh
+            const card = document.getElementById('game-card');
+            card.style.opacity = 0;
+            
+            setTimeout(() => {
+                document.getElementById('icon-display').innerText = data.icon;
+                document.getElementById('scenario-text').innerText = data.text;
+                
+                const btnGroup = document.getElementById('btn-group');
+                btnGroup.innerHTML = "";
+                
+                data.choices.forEach(c => {
+                    const btn = document.createElement('button');
+                    btn.className = 'choice-btn';
+                    btn.innerText = c.text;
+                    btn.onclick = () => {
+                        if(c.rep) currentStats.rep += c.rep;
+                        if(c.rank) currentStats.rank = c.rank;
+                        document.getElementById('stat-rep').innerText = currentStats.rep;
+                        document.getElementById('stat-rank').innerText = currentStats.rank;
+                        updateDisplay(c.next);
+                    };
+                    btnGroup.appendChild(btn);
+                });
+                card.style.opacity = 1;
+            }, 500);
+        }
+
+        // Bắt đầu game
+        updateDisplay('start');
+    </script>
+</body>
+</html>
